@@ -1,4 +1,4 @@
-package com.yadwy.yadwy.category;
+package com.yadwy.yadwy.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-public class CategoryController {
+public class UserController {
+    private final UserRepository userRepository;
 
-    private final CategoryRepository categoryRepository;
     @GetMapping
-    List<Category>findAll(){
-        return categoryRepository.findAll();
+    List<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

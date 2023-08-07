@@ -1,4 +1,5 @@
-package com.yadwy.yadwy.category;
+package com.yadwy.yadwy.product;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,14 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-public class CategoryController {
+public class ProductController {
 
-    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     @GetMapping
-    List<Category>findAll(){
-        return categoryRepository.findAll();
+    List<Product> findAll() {
+        return productRepository.findAll();
     }
-
 }

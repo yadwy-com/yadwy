@@ -1,4 +1,4 @@
-package com.yadwy.yadwy.category;
+package com.yadwy.yadwy.review;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
-public class CategoryController {
+public class ReviewController {
 
-    private final CategoryRepository categoryRepository;
+    private final ReviewRepository reviewRepository;
+
     @GetMapping
-    List<Category>findAll(){
-        return categoryRepository.findAll();
+    List<Review> findAll() {
+        return reviewRepository.findAll();
     }
-
 }
