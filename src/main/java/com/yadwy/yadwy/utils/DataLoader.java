@@ -1,6 +1,7 @@
 package com.yadwy.yadwy.utils;
 
 import com.yadwy.yadwy.cart.Cart;
+import com.yadwy.yadwy.cart.CartItem;
 import com.yadwy.yadwy.cart.CartRepository;
 import com.yadwy.yadwy.category.Category;
 import com.yadwy.yadwy.category.CategoryRepository;
@@ -18,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,8 +34,7 @@ public class DataLoader {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
-            categoryRepository.save(new Category(1L, "test", "test", "test.png"));
-            categoryRepository.save(new Category(2L, "test2", "test2", "test2.png"));
+
 
             orderRepository.save(new Order(
                     1L,
@@ -52,34 +54,26 @@ public class DataLoader {
                     "01234567892",
                     "h2@gmail.com"));
 
-            cartRepository.save(new Cart(1L));
-            cartRepository.save(new Cart(2L));
+            Cart cart = new Cart();
 
-            productRepository.save(new Product(
-                    1L,
-                    "test",
-                    "test",
-                    "test.png",
-                    232.0,
-                    23,
-                    LocalDate.now(),
-                    LocalDate.now()));
+            CartItem cartItem1 = new CartItem();
+            cartItem1.setQuantity(2);
+            cartItem1.setCart(cart);
 
-            productRepository.save(new Product(
-                    2L,
-                    "test2",
-                    "test2",
-                    "test2.png",
-                    23.0,
-                    10,
-                    LocalDate.now(),
-                    LocalDate.now()));
+            CartItem cartItem2 = new CartItem();
+            cartItem2.setQuantity(3);
+            cartItem2.setCart(cart);
+
+            cart.getCartItems().add(cartItem1);
+            cart.getCartItems().add(cartItem2);
+
+            cartRepository.save(cart);
+
+
 
             reviewRepository.save(new Review(1L, "hassan", "so good", 5, LocalDate.now()));
             reviewRepository.save(new Review(2L, "hassan", "so bad", 2, LocalDate.now()));
 
-            userRepository.save(new User(1L, "hassan", "refaat","h@gmail.com"));
-            userRepository.save(new User(2L, "Abdo", "Ali","abdo@gmail.com"));
 
         };
     }

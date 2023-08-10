@@ -1,5 +1,6 @@
 package com.yadwy.yadwy.user;
 
+import com.yadwy.yadwy.address.Address;
 import com.yadwy.yadwy.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "yadwy_user")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -30,8 +31,12 @@ public class User {
 
     @Email
     private String email;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id"))
+    private List<Address> addresses = new ArrayList<>();
 
-    //todo: add role
 
 //
 //    @OneToMany(mappedBy = "yadwy_user", cascade = CascadeType.ALL)
