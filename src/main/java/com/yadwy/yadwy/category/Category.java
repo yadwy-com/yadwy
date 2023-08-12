@@ -1,5 +1,6 @@
 package com.yadwy.yadwy.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yadwy.yadwy.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -23,14 +24,16 @@ public class Category {
 
     private String name;
 
-
     private String description;
-
 
     private String image;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Product> products = new ArrayList<>();
+
+
+
 
     @Override
     public boolean equals(Object o) {

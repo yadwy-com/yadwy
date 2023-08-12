@@ -1,5 +1,6 @@
 package com.yadwy.yadwy.address;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +18,7 @@ import java.util.List;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long addressId;
 
     @NotBlank
@@ -44,8 +45,10 @@ public class Address {
     @Size(min = 6, message = "Pincode must contain atleast 6 characters")
     private String pincode;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 
     public Address(String country, String state, String city, String pincode, String street, String buildingName) {
         this.country = country;

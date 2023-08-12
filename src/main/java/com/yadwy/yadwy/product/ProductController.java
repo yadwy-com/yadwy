@@ -1,11 +1,9 @@
 package com.yadwy.yadwy.product;
 
 
+import com.yadwy.yadwy.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,13 +13,14 @@ import java.util.List;
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final ProductService productService;
     @GetMapping
     List<Product> findAll() {
         return productRepository.findAll();
     }
 
     @PostMapping
-    Product create(Product product) {
-        return productRepository.save(product);
+    Product createProduct(@RequestBody ProductDto productDto) {
+        return productService.createProduct(productDto);
     }
 }

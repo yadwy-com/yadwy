@@ -1,13 +1,9 @@
 package com.yadwy.yadwy.user;
 
 import com.yadwy.yadwy.address.Address;
-import com.yadwy.yadwy.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,10 +27,8 @@ public class User {
 
     @Email
     private String email;
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "user_address",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id"))
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
 
 
@@ -43,4 +37,7 @@ public class User {
 //    private List<Product> products = new ArrayList<>();
 
 
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 }
