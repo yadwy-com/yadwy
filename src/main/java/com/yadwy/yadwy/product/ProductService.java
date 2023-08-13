@@ -2,6 +2,7 @@ package com.yadwy.yadwy.product;
 
 import com.yadwy.yadwy.category.CategoryRepository;
 import com.yadwy.yadwy.dto.ProductDto;
+import com.yadwy.yadwy.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class ProductService {
         var product = new Product();
 
         var category = categoryRepository.findById(productDto.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category does not exist with id: " + productDto.categoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", productDto.categoryId()));
 
         product.setName(productDto.name());
         product.setDescription(productDto.description());
@@ -30,4 +31,5 @@ public class ProductService {
 
         return productRepository.save(product);
     }
+
 }
