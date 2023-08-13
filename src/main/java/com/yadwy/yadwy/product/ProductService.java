@@ -32,4 +32,31 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    public Product updateProduct(Long id, ProductDto productDto) {
+        var product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+
+        var category = categoryRepository.findById(productDto.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", productDto.categoryId()));
+
+        product.setName(productDto.name());
+        product.setDescription(productDto.description());
+        product.setImage(productDto.image());
+        product.setPrice(productDto.price());
+        product.setQuantity(productDto.quantity());
+        product.setCreatedAt(productDto.createdAt());
+        product.setUpdatedAt(productDto.updatedAt());
+        product.setCategory(category);
+        log.info("product updated successfully , product id {}", product.getId());
+
+        return productRepository.save(product);
+    }
+
+    public void deleteProduct(Long id) {
+        var product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+
+        productRepository.delete(product);
+        log.info("product deleted successfully , product id {}", product.getId());
+    }
 }
