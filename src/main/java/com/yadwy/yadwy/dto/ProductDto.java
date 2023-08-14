@@ -10,5 +10,7 @@ public record ProductDto(
         Integer quantity,
         LocalDate createdAt,
         LocalDate updatedAt,
-        Long categoryId) {
+        Long categoryId,
+        Long vendorId
+) {
 }

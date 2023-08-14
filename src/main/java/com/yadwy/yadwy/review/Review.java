@@ -1,28 +1,25 @@
 package com.yadwy.yadwy.review;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yadwy.yadwy.product.Product;
+import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "reviews")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
+@Setter
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    //todo: relationship with user
-    private String customerName;
 
     @NotNull
     private String comment;
@@ -31,8 +28,12 @@ public class Review {
 
     private LocalDate createAt;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @JsonBackReference
+    private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private User customer;
 }

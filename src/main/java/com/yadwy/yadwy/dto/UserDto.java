@@ -1,10 +1,10 @@
 package com.yadwy.yadwy.dto;
 
-public record UserDTO(
+
+public record UserDto(
         String firstName,
         String lastName,
-        String email,
-        AddressDTO address
+        String email
 ) {
     // private Set<Role> roles = new HashSet<>();
     //  private CartDTO cart;

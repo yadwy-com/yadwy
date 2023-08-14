@@ -3,6 +3,9 @@ package com.yadwy.yadwy.product;
 import com.yadwy.yadwy.category.CategoryRepository;
 import com.yadwy.yadwy.dto.ProductDto;
 import com.yadwy.yadwy.exception.ResourceNotFoundException;
+import com.yadwy.yadwy.review.Review;
+import com.yadwy.yadwy.review.ReviewRepository;
+import com.yadwy.yadwy.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,11 +16,16 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
     public Product createProduct(ProductDto productDto) {
         var product = new Product();
 
         var category = categoryRepository.findById(productDto.categoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", productDto.categoryId()));
+
+        var vendor = userRepository.findById(productDto.vendorId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "vendorId", productDto.vendorId()));
 
         product.setName(productDto.name());
         product.setDescription(productDto.description());
@@ -27,7 +35,8 @@ public class ProductService {
         product.setCreatedAt(productDto.createdAt());
         product.setUpdatedAt(productDto.updatedAt());
         product.setCategory(category);
-        log.info("product created successfully , product id {}", product.getId());
+        product.setVendor(vendor);
+        log.info("product created successfully");
 
         return productRepository.save(product);
     }
@@ -39,6 +48,9 @@ public class ProductService {
         var category = categoryRepository.findById(productDto.categoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", productDto.categoryId()));
 
+        var vendor = userRepository.findById(productDto.vendorId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "vendorId", productDto.vendorId()));
+
         product.setName(productDto.name());
         product.setDescription(productDto.description());
         product.setImage(productDto.image());
@@ -47,7 +59,8 @@ public class ProductService {
         product.setCreatedAt(productDto.createdAt());
         product.setUpdatedAt(productDto.updatedAt());
         product.setCategory(category);
-        log.info("product updated successfully , product id {}", product.getId());
+        product.setVendor(vendor);
+        log.info("product updated successfully");
 
         return productRepository.save(product);
     }
@@ -55,7 +68,6 @@ public class ProductService {
     public void deleteProduct(Long id) {
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
-
         productRepository.delete(product);
         log.info("product deleted successfully , product id {}", product.getId());
     }

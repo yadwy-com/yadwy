@@ -1,12 +1,15 @@
 package com.yadwy.yadwy.product;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yadwy.yadwy.category.Category;
+import com.yadwy.yadwy.dto.ReviewDto;
+import com.yadwy.yadwy.review.Review;
+import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -38,14 +41,14 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    private List<Review> reviews =  new ArrayList<>();
-//
-//    @ManyToOne
-//    @JoinColumn(name = "vendor_id")
-//    private User vendor;
-//
-//
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    private User vendor;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Review> reviews =  new ArrayList<>();
+
+
 //    @ManyToMany(mappedBy = "products")
 //    private List<Order> orders = new ArrayList<>();
 //
@@ -53,6 +56,10 @@ public class Product {
 //    @ManyToMany(mappedBy = "products")
 //    private List<Cart> carts = new ArrayList<>();
 
+
+    public void setReview(Review review) {
+        this.reviews.add(review);
+    }
 
     @Override
     public boolean equals(Object o) {

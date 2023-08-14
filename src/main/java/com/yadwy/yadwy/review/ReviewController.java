@@ -1,9 +1,8 @@
 package com.yadwy.yadwy.review;
 
+import com.yadwy.yadwy.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -12,10 +11,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final ReviewRepository reviewRepository;
+    private final ReviewService reviewService;
 
     @GetMapping
     List<Review> findAll() {
-        return reviewRepository.findAll();
+        return reviewService.getAllReviews();
+    }
+
+    @PostMapping("/{id}")
+    Review createReview(@PathVariable Long id,@RequestBody ReviewDto reviewDto) {
+        return reviewService.createReview(id,reviewDto);
     }
 }

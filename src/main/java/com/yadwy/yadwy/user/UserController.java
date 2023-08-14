@@ -1,46 +1,30 @@
 package com.yadwy.yadwy.user;
 
-import com.yadwy.yadwy.address.Address;
-import com.yadwy.yadwy.dto.UserDTO;
+import com.yadwy.yadwy.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
     private final UserRepository userRepository;
 
     @GetMapping
-    List<User> findAll() {
-        return userRepository.findAll();
+    List<User> getAll() {
+        return userService.getAll();
     }
 
-    @PostMapping
-    UserDTO createUser(@RequestBody UserDTO userDto) {
-        var user = new User();
-        user.setFirstName(userDto.firstName());
-        user.setLastName(userDto.lastName());
-        user.setEmail(userDto.email());
-        var addressDto = userDto.address();
+    @PostMapping("/customers")
+    User createCustomer(@RequestBody UserDto userDto) {
+        return userService.createCustomer(userDto);
+    }
 
-        var address = new Address();
-        address.setStreet(addressDto.street());
-        address.setBuildingName(addressDto.buildingName());
-        address.setCity(addressDto.city());
-        address.setState(addressDto.state());
-        address.setCountry(addressDto.country());
-        address.setPincode(addressDto.pincode());
-
-        var addressesList = new ArrayList<Address>();
-        addressesList.add(address);
-
-        user.setAddresses(addressesList);
-        userRepository.save(user);
-
-        return userDto;
+    @PostMapping("/vendors")
+    User createVendor(@RequestBody UserDto userDto) {
+        return userService.createVendor(userDto);
     }
 }
