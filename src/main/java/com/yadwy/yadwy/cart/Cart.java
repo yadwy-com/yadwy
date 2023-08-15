@@ -1,5 +1,6 @@
 package com.yadwy.yadwy.cart;
 
+import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,20 +21,12 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @OneToMany(mappedBy = "cart", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private User customer;
+
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @Column(name = "cart_items")
     private Set<CartItem> cartItems = new HashSet<>();
-
-
-
-//    @ManyToOne
-//    @JoinColumn(name = "customer_id")
-//    private User customer;
-//
-//    @ManyToMany
-//    @JoinTable(name = "cart_product",
-//            joinColumns = @JoinColumn(name = "cart_id"),
-//            inverseJoinColumns = @JoinColumn(name = "product_id"))
-//    private List<Product> products = new ArrayList<>();
 
 }

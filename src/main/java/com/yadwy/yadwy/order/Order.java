@@ -35,7 +35,7 @@ public class Order {
     private String contactNumber;
 
     @Column(name = "customer_email")
-    private String CustomerEmail;
+    private String customerEmail;
 
 
 }

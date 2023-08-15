@@ -2,6 +2,7 @@ package com.yadwy.yadwy.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yadwy.yadwy.address.Address;
+import com.yadwy.yadwy.cart.Cart;
 import com.yadwy.yadwy.product.Product;
 import com.yadwy.yadwy.review.Review;
 import jakarta.persistence.*;
@@ -46,7 +47,9 @@ public class User {
     @JsonBackReference
     private List<Review> reviews = new ArrayList<>();
 
-
+    @OneToOne(mappedBy = "customer")
+    @JsonBackReference
+    private Cart cart;
 
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;

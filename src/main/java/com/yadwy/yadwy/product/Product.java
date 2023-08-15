@@ -1,7 +1,7 @@
 package com.yadwy.yadwy.product;
 
+import com.yadwy.yadwy.cart.CartItem;
 import com.yadwy.yadwy.category.Category;
-import com.yadwy.yadwy.dto.ReviewDto;
 import com.yadwy.yadwy.review.Review;
 import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "products")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -48,13 +49,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews =  new ArrayList<>();
 
-
-//    @ManyToMany(mappedBy = "products")
-//    private List<Order> orders = new ArrayList<>();
-//
-//
-//    @ManyToMany(mappedBy = "products")
-//    private List<Cart> carts = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
 
     public void setReview(Review review) {

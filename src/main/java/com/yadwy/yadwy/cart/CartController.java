@@ -1,9 +1,8 @@
 package com.yadwy.yadwy.cart;
 
+import com.yadwy.yadwy.dto.CartItemDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,12 +10,14 @@ import java.util.List;
 @RequestMapping("/api/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
+    private final CartService cartService;
 
-    private final CartRepository cartRepository;
-
-    @GetMapping
-    List<Cart> findAll(){
-        return cartRepository.findAll();
+    @PostMapping("/{customerId}/items")
+    public CartItem addItemToCart(@PathVariable Long customerId,@RequestBody CartItemDto cartItemDto){
+        return cartService.addItemToCart(customerId, cartItemDto);
     }
-
+    @GetMapping("/{customerId}/items")
+    public List<CartItem> getCustomerCartItems(@PathVariable Long customerId){
+        return cartService.getCustomerCartItems(customerId);
+    }
 }
