@@ -25,6 +25,8 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private User customer;
 
+    private Double totalPrice = 0.0;
+
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @Column(name = "cart_items")
     private Set<CartItem> cartItems = new HashSet<>();
