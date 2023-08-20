@@ -5,3 +5,6 @@ It is built Spring boot and Next.js.
 
 ## Database ERD
 ![yadwy-erd.png](yadwy-erd.png)
+
+## High Level Architecture
+![high-level-design.jpg](high-level-design.jpg)
