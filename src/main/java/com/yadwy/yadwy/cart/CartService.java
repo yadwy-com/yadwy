@@ -1,17 +1,21 @@
 package com.yadwy.yadwy.cart;
 
 import com.yadwy.yadwy.dto.CartDto;
-import com.yadwy.yadwy.dto.CartItemDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import com.yadwy.yadwy.exception.ApiException;
 import com.yadwy.yadwy.exception.ResourceNotFoundException;
+import com.yadwy.yadwy.product.Product;
 import com.yadwy.yadwy.product.ProductRepository;
 import com.yadwy.yadwy.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +27,6 @@ public class CartService {
     private final ProductRepository productRepository;
 
     public CartDto addItemToCart(Long cartId, Long productId,Integer quantity) {
-
-
-        var c = new Cart();
-        cartRepository.save(c);
 
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
@@ -64,20 +64,34 @@ public class CartService {
         cartDto.setCartId(cartId);
         cartDto.setTotalPrice(product.getPrice());
 
-        List<ProductDto> productDTOs = cart.getCartItems().stream()
-                .map(item -> new ProductDto(
-                        item.getProduct().getName(),
-                        item.getProduct().getDescription(),
-                        item.getProduct().getImage(),
-                        item.getProduct().getPrice(),
-                        item.getProduct().getQuantity(),
-                        item.getProduct().getCreatedAt(),
-                        item.getProduct().getUpdatedAt(),
-                        item.getProduct().getCategory().getId(),
-                        item.getProduct().getVendor().getId()
-                )).toList();
+//        List<ProductDto> productDTOs = cart.getCartItems().stream()
+//                .map(item -> new ProductDto(
+//                        item.getProduct().getName(),
+//                        item.getProduct().getDescription(),
+//                        item.getProduct().getImage(),
+//                        item.getProduct().getPrice(),
+//                        item.getProduct().getQuantity(),
+//                        item.getProduct().getCreatedAt(),
+//                        item.getProduct().getUpdatedAt(),
+//                        item.getProduct().getCategory().getId(),
+//                        item.getProduct().getVendor().getId()
+//                )).toList();
+//
+//        cartDto.setProducts(productDTOs);
 
-        cartDto.setProducts(productDTOs);
+        var list = Stream.of(new ProductDto(
+                "iphone 12",
+                "iphone 12",
+                "iphone.pnj",
+                1000.0,
+                10,
+                LocalDate.now(),
+                LocalDate.now(),
+                1L,
+                1L
+
+        )).collect(Collectors.toCollection(ArrayList::new));
+        cartDto.setProducts(list);
         return cartDto;
     }
 

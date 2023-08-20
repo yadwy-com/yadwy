@@ -1,8 +1,11 @@
 package com.yadwy.yadwy.user;
 
+import com.yadwy.yadwy.cart.Cart;
+import com.yadwy.yadwy.cart.CartRepository;
 import com.yadwy.yadwy.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CartRepository  cartRepository;
 
     public User createCustomer(UserDto userDto) {
         var user = new User();
@@ -18,7 +22,16 @@ public class UserService {
         user.setLastName(userDto.lastName());
         user.setEmail(userDto.email());
         user.setRole(Role.CUSTOMER);
-        return userRepository.save(user);
+        var savedUser = userRepository.save(user);
+
+        var cart = new Cart();
+        cart.setCustomer(savedUser);
+
+        savedUser.setCart(cart);
+        cartRepository.save(cart);
+
+
+        return savedUser;
     }
 
     User createVendor(UserDto userDto) {

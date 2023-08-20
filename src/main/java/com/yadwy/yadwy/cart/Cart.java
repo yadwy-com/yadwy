@@ -1,5 +1,6 @@
 package com.yadwy.yadwy.cart;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,6 +24,7 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private User customer;
 
     private Double totalPrice = 0.0;

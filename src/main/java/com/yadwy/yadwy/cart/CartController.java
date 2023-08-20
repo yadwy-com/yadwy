@@ -1,7 +1,6 @@
 package com.yadwy.yadwy.cart;
 
 import com.yadwy.yadwy.dto.CartDto;
-import com.yadwy.yadwy.dto.CartItemDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

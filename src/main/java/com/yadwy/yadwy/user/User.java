@@ -1,6 +1,7 @@
 package com.yadwy.yadwy.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yadwy.yadwy.address.Address;
 import com.yadwy.yadwy.cart.Cart;
 import com.yadwy.yadwy.product.Product;
@@ -48,7 +49,6 @@ public class User {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToOne(mappedBy = "customer")
-    @JsonBackReference
     private Cart cart;
 
     public void setAddresses(List<Address> addresses) {
