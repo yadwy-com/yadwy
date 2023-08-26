@@ -1,14 +1,10 @@
 package com.yadwy.yadwy.address;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.yadwy.yadwy.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
 @Entity
 @Table(name = "addresses")
 @Getter
@@ -45,10 +41,6 @@ public class Address {
     @Size(min = 6, message = "Pincode must contain atleast 6 characters")
     private String pincode;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private User user;
 
     public Address(String country, String state, String city, String pincode, String street, String buildingName) {
         this.country = country;

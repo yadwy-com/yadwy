@@ -19,20 +19,20 @@ public class ReviewService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public Review createReview(Long userID, ReviewDto reviewDto) {
+    public Review createReview(Long userID,Long productId, ReviewDto reviewDto) {
 
-        var product = productRepository.findById(reviewDto.productId())
+        var product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", reviewDto.productId()));
 
         var customer = userRepository.findById(userID)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userID));
+
         var review = new Review();
         review.setComment(reviewDto.comment());
         review.setRating(reviewDto.rating());
         review.setCreateAt(reviewDto.createAt());
         review.setProduct(product);
         review.setCustomer(customer);
-        product.setReview(review);
         log.info("review created successfully");
         return reviewRepository.save(review);
     }

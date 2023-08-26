@@ -3,11 +3,9 @@ package com.yadwy.yadwy.user;
 import com.yadwy.yadwy.cart.Cart;
 import com.yadwy.yadwy.cart.CartRepository;
 import com.yadwy.yadwy.dto.UserDto;
+import com.yadwy.yadwy.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
 @Service
@@ -45,5 +43,12 @@ public class UserService {
 
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+    public List<User>getAllCustomers() {
+        return userRepository.findByRole(Role.CUSTOMER);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 }

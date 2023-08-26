@@ -1,6 +1,6 @@
 package com.yadwy.yadwy.dto;
 
-public record AddressDTO(
+public record AddressDto(
         String street,
         String buildingName,
         String city,

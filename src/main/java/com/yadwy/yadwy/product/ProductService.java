@@ -1,6 +1,7 @@
 package com.yadwy.yadwy.product;
 
 import com.yadwy.yadwy.category.CategoryRepository;
+import com.yadwy.yadwy.dto.HomeProductDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import com.yadwy.yadwy.exception.ResourceNotFoundException;
 import com.yadwy.yadwy.review.Review;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -18,6 +21,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+
     public Product createProduct(ProductDto productDto) {
         var product = new Product();
 
@@ -70,5 +74,13 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
         productRepository.delete(product);
         log.info("product deleted successfully , product id {}", product.getId());
+    }
+
+    public List<HomeProductDto> getHomeProducts() {
+        return productRepository.findAll().stream()
+                .map(product -> {
+                    return new HomeProductDto(product.getId(), product.getName(), product.getImage(), product.getPrice());
+                })
+                .toList();
     }
 }

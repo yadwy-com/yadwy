@@ -18,8 +18,12 @@ public class ReviewController {
         return reviewService.getAllReviews();
     }
 
-    @PostMapping("/{id}")
-    Review createReview(@PathVariable Long id,@RequestBody ReviewDto reviewDto) {
-        return reviewService.createReview(id,reviewDto);
+    @PostMapping("/user/{userId}/products/{productId}")
+    Review createReview(
+            @PathVariable Long userId,
+            @PathVariable Long productId,
+            @RequestBody ReviewDto reviewDto
+    ) {
+        return reviewService.createReview(userId,productId, reviewDto);
     }
 }

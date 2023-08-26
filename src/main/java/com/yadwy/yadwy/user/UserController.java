@@ -18,6 +18,14 @@ public class UserController {
         return userService.getAll();
     }
 
+    @GetMapping("/customers")
+    List<User> getAllCustomers() {
+        return userService.getAllCustomers();
+    }
+    @GetMapping("/{id}")
+    User getById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
     @PostMapping("/customers")
     User createCustomer(@RequestBody UserDto userDto) {
         return userService.createCustomer(userDto);
@@ -27,4 +35,5 @@ public class UserController {
     User createVendor(@RequestBody UserDto userDto) {
         return userService.createVendor(userDto);
     }
+
 }

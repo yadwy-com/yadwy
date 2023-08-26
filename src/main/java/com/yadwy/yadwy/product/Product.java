@@ -49,13 +49,13 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews =  new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<CartItem> cartItems = new ArrayList<>();
 
 
-    public void setReview(Review review) {
-        this.reviews.add(review);
-    }
+//    public void setReview(Review review) {
+//        this.reviews.add(review);
+//    }
 
     @Override
     public boolean equals(Object o) {

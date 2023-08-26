@@ -35,5 +35,6 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private User customer;
 }

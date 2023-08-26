@@ -1,6 +1,7 @@
 package com.yadwy.yadwy.product;
 
 
+import com.yadwy.yadwy.dto.HomeProductDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,10 @@ public class ProductController {
     ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/home")
+    ResponseEntity<List<HomeProductDto>> getHomeProducts() {
+        return new ResponseEntity<>(productService.getHomeProducts(), HttpStatus.OK);
     }
 }
