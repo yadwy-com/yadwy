@@ -1,6 +1,5 @@
 package com.yadwy.yadwy.product;
 
-import com.yadwy.yadwy.cart.CartItem;
 import com.yadwy.yadwy.category.Category;
 import com.yadwy.yadwy.review.Review;
 import com.yadwy.yadwy.user.User;

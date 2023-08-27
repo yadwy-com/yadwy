@@ -1,7 +1,7 @@
 package com.yadwy.yadwy.product;
 
 
-import com.yadwy.yadwy.dto.HomeProductDto;
+import com.yadwy.yadwy.dto.ProductInfoDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,13 @@ public class ProductController {
     }
 
     @GetMapping("/home")
-    ResponseEntity<List<HomeProductDto>> getHomeProducts() {
+    ResponseEntity<List<ProductInfoDto>> getHomeProducts() {
         return new ResponseEntity<>(productService.getHomeProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{categoryId}")
+    ResponseEntity<List<ProductInfoDto>> getProductsByCategoryId(@PathVariable Long categoryId) {
+        return new ResponseEntity<>(productService.getProductsByCategoryId(categoryId),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -1,10 +1,9 @@
 package com.yadwy.yadwy.product;
 
 import com.yadwy.yadwy.category.CategoryRepository;
-import com.yadwy.yadwy.dto.HomeProductDto;
+import com.yadwy.yadwy.dto.ProductInfoDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import com.yadwy.yadwy.exception.ResourceNotFoundException;
-import com.yadwy.yadwy.review.Review;
 import com.yadwy.yadwy.review.ReviewRepository;
 import com.yadwy.yadwy.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +22,27 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
 
-    List<Product>getAllProducts(){
+    List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
     Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+    }
+
+    public List<ProductInfoDto> getHomeProducts() {
+        return productRepository.findAll().stream()
+                .map(product -> {
+                    return new ProductInfoDto(product.getId(), product.getName(), product.getImage(), product.getPrice());
+                })
+                .toList();
+    }
+
+    public List<ProductInfoDto> getProductsByCategoryId(Long categoryId) {
+        return productRepository.findAllByCategoryId(categoryId).stream().map(product ->
+                new ProductInfoDto(product.getId(), product.getName(), product.getImage(), product.getPrice())
+        ).toList();
     }
 
     public Product createProduct(ProductDto productDto) {
@@ -85,11 +99,5 @@ public class ProductService {
         log.info("product deleted successfully , product id {}", product.getId());
     }
 
-    public List<HomeProductDto> getHomeProducts() {
-        return productRepository.findAll().stream()
-                .map(product -> {
-                    return new HomeProductDto(product.getId(), product.getName(), product.getImage(), product.getPrice());
-                })
-                .toList();
-    }
+
 }
