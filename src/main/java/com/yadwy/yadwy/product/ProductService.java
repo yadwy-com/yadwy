@@ -22,6 +22,15 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
 
+    List<Product>getAllProducts(){
+        return productRepository.findAll();
+    }
+
+    Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+    }
+
     public Product createProduct(ProductDto productDto) {
         var product = new Product();
 

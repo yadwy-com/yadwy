@@ -17,9 +17,20 @@ public class ProductController {
 
     private final ProductRepository productRepository;
     private final ProductService productService;
+
     @GetMapping
     List<Product> findAll() {
-        return productRepository.findAll();
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/home")
+    ResponseEntity<List<HomeProductDto>> getHomeProducts() {
+        return new ResponseEntity<>(productService.getHomeProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    Product findById(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
 
     @PostMapping
@@ -35,11 +46,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/home")
-    ResponseEntity<List<HomeProductDto>> getHomeProducts() {
-        return new ResponseEntity<>(productService.getHomeProducts(), HttpStatus.OK);
-    }
 }
