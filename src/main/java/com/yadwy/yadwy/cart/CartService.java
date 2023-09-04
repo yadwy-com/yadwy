@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
     public CartDto addItemToCart(Long cartId, Long productId,Integer quantity) {

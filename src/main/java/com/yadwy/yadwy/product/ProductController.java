@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductRepository productRepository;
     private final ProductService productService;
 
     @GetMapping
@@ -34,8 +33,18 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    Product findById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    ResponseEntity<Product> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/top-products")
+    ResponseEntity<List<ProductInfoDto>> getToFourProducts() {
+        return new ResponseEntity<>(productService.getToFourProducts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/new-products")
+    ResponseEntity<List<ProductInfoDto>> findTopNewProducts() {
+        return new ResponseEntity<>(productService.findTopNewProducts(), HttpStatus.OK);
     }
 
     @PostMapping

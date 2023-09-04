@@ -100,4 +100,16 @@ public class ProductService {
     }
 
 
+    public List<ProductInfoDto> getToFourProducts() {
+        return productRepository.findTopFourProducts().stream()
+                .map(product -> new ProductInfoDto(product.getId(), product.getName(), product.getImage(), product.getPrice()))
+                .toList();
+    }
+
+    public List<ProductInfoDto> findTopNewProducts() {
+        return productRepository.findTopFourProducts().stream()
+                .map(product -> new ProductInfoDto(product.getId(), product.getName(), product.getImage(), product.getPrice()))
+                .toList();
+    }
+
 }
