@@ -38,8 +38,8 @@ jobs:
         with:
           aws_access_key: ${{secrets.AWS_ACCESS_KEY_ID}}
           aws_secret_key: ${{secrets.AWS_SECRET_KEY_ID}}
-          application_name: imageuploaderapi
-          environment_name: Imageuploaderapi-env-1
-          version_label: imageuploaderapi-${{steps.time.outputs.time}}
+          application_name: yadwy.com
+          environment_name: Yadwycom-env
+          version_label: yadwy-${{steps.time.outputs.time}}
           region: us-east-1
-          deployment_package: target/image-uploder-0.0.1-SNAPSHOT.jar
+          deployment_package: target/yadwy-0.0.1-SNAPSHOT.jar
