@@ -3,7 +3,6 @@ package com.yadwy.yadwy.category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yadwy.yadwy.product.Product;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
