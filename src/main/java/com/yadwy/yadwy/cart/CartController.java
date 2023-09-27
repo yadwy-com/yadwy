@@ -12,13 +12,13 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
-    @PostMapping("/{cartId}/products/{productId}/quantity/{quantity}")
-    public CartDto addItemToCart(
-            @PathVariable Long cartId,
-            @PathVariable Long productId,
-            @PathVariable Integer quantity) {
-        return cartService.addItemToCart(cartId, productId,quantity);
-    }
+//    @PostMapping("/{cartId}/products/{productId}/quantity/{quantity}")
+//    public CartDto addItemToCart(
+//            @PathVariable Long cartId,
+//            @PathVariable Long productId,
+//            @PathVariable Integer quantity) {
+//        return cartService.addItemToCart(cartId, productId,quantity);
+//    }
 
     @GetMapping("/{customerId}/items")
     public List<CartItem> getCustomerCartItems(@PathVariable Long customerId) {

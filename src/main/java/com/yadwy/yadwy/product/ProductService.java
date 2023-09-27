@@ -5,12 +5,19 @@ import com.yadwy.yadwy.dto.ProductInfoDto;
 import com.yadwy.yadwy.dto.ProductDto;
 import com.yadwy.yadwy.exception.ResourceNotFoundException;
 import com.yadwy.yadwy.review.ReviewRepository;
+import com.yadwy.yadwy.s3.S3Service;
 import com.yadwy.yadwy.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -21,6 +28,9 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final S3Service s3Service;
+    @Value("${aws.s3.bucket}")
+    private String bucketName;
 
     List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -45,22 +55,38 @@ public class ProductService {
         ).toList();
     }
 
-    public Product createProduct(ProductDto productDto) {
+    public Product createProduct(
+            String name,
+            String description,
+            MultipartFile imageUrl,
+            Double price,
+            Integer quantity,
+            LocalDate createdAt,
+            LocalDate updatedAt,
+            Long categoryId,
+            Long vendorId
+    ) throws IOException {
         var product = new Product();
+        var category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
-        var category = categoryRepository.findById(productDto.categoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", productDto.categoryId()));
+        var vendor = userRepository.findById(vendorId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "vendorId", vendorId));
 
-        var vendor = userRepository.findById(productDto.vendorId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "vendorId", productDto.vendorId()));
+        String productImageId = UUID.randomUUID().toString();
+        var url = s3Service.putObject(
+                bucketName,
+                productImageId,
+                imageUrl.getBytes()
+        );
 
-        product.setName(productDto.name());
-        product.setDescription(productDto.description());
-        product.setImage(productDto.image());
-        product.setPrice(productDto.price());
-        product.setQuantity(productDto.quantity());
-        product.setCreatedAt(productDto.createdAt());
-        product.setUpdatedAt(productDto.updatedAt());
+        product.setName(name);
+        product.setDescription(description);
+        product.setImage(url);
+        product.setPrice(price);
+        product.setQuantity(quantity);
+        product.setCreatedAt(createdAt);
+        product.setUpdatedAt(updatedAt);
         product.setCategory(category);
         product.setVendor(vendor);
         log.info("product created successfully");
@@ -80,7 +106,7 @@ public class ProductService {
 
         product.setName(productDto.name());
         product.setDescription(productDto.description());
-        product.setImage(productDto.image());
+        //product.setImage(productDto.image());
         product.setPrice(productDto.price());
         product.setQuantity(productDto.quantity());
         product.setCreatedAt(productDto.createdAt());

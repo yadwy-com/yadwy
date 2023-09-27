@@ -25,74 +25,74 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
 
-    public CartDto addItemToCart(Long cartId, Long productId,Integer quantity) {
-
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
-
-        var product = productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
-
-        var  cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId, productId);
-
-        if (cartItem != null) {
-            throw new ApiException("Product " + product.getName() + " already exists in the cart");
-        }
-
-        if (product.getQuantity() == 0) {
-            throw new ApiException(product.getName() + " is not available");
-        }
-
-        if (product.getQuantity() < quantity) {
-            throw new ApiException("Please, make an order of the " + product.getName()
-                    + " less than or equal to the quantity " + product.getQuantity() + ".");
-        }
-
-        CartItem newCartItem = new CartItem();
-
-        newCartItem.setProduct(product);
-        newCartItem.setCart(cart);
-        newCartItem.setQuantity(quantity);
-        newCartItem.setProductPrice(product.getPrice());
-        cartItemRepository.save(newCartItem);
-
-        product.setQuantity(product.getQuantity() - quantity);
-        cart.setTotalPrice(cart.getTotalPrice() + (product.getPrice() * quantity));
-
-        var cartDto = new CartDto();
-        cartDto.setCartId(cartId);
-        cartDto.setTotalPrice(product.getPrice());
-
-//        List<ProductDto> productDTOs = cart.getCartItems().stream()
-//                .map(item -> new ProductDto(
-//                        item.getProduct().getName(),
-//                        item.getProduct().getDescription(),
-//                        item.getProduct().getImage(),
-//                        item.getProduct().getPrice(),
-//                        item.getProduct().getQuantity(),
-//                        item.getProduct().getCreatedAt(),
-//                        item.getProduct().getUpdatedAt(),
-//                        item.getProduct().getCategory().getId(),
-//                        item.getProduct().getVendor().getId()
-//                )).toList();
+//    public CartDto addItemToCart(Long cartId, Long productId,Integer quantity) {
 //
-//        cartDto.setProducts(productDTOs);
-
-        var list = Stream.of(new ProductDto(
-                "iphone 12",
-                "iphone 12",
-                "iphone.pnj",
-                1000.0,
-                10,
-                LocalDate.now(),
-                LocalDate.now(),
-                1L,
-                1L
-
-        )).collect(Collectors.toCollection(ArrayList::new));
-        cartDto.setProducts(list);
-        return cartDto;
-    }
+//        Cart cart = cartRepository.findById(cartId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Cart", "cartId", cartId));
+//
+//        var product = productRepository.findById(productId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
+//
+//        var  cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId, productId);
+//
+//        if (cartItem != null) {
+//            throw new ApiException("Product " + product.getName() + " already exists in the cart");
+//        }
+//
+//        if (product.getQuantity() == 0) {
+//            throw new ApiException(product.getName() + " is not available");
+//        }
+//
+//        if (product.getQuantity() < quantity) {
+//            throw new ApiException("Please, make an order of the " + product.getName()
+//                    + " less than or equal to the quantity " + product.getQuantity() + ".");
+//        }
+//
+//        CartItem newCartItem = new CartItem();
+//
+//        newCartItem.setProduct(product);
+//        newCartItem.setCart(cart);
+//        newCartItem.setQuantity(quantity);
+//        newCartItem.setProductPrice(product.getPrice());
+//        cartItemRepository.save(newCartItem);
+//
+//        product.setQuantity(product.getQuantity() - quantity);
+//        cart.setTotalPrice(cart.getTotalPrice() + (product.getPrice() * quantity));
+//
+//        var cartDto = new CartDto();
+//        cartDto.setCartId(cartId);
+//        cartDto.setTotalPrice(product.getPrice());
+//
+////        List<ProductDto> productDTOs = cart.getCartItems().stream()
+////                .map(item -> new ProductDto(
+////                        item.getProduct().getName(),
+////                        item.getProduct().getDescription(),
+////                        item.getProduct().getImage(),
+////                        item.getProduct().getPrice(),
+////                        item.getProduct().getQuantity(),
+////                        item.getProduct().getCreatedAt(),
+////                        item.getProduct().getUpdatedAt(),
+////                        item.getProduct().getCategory().getId(),
+////                        item.getProduct().getVendor().getId()
+////                )).toList();
+////
+////        cartDto.setProducts(productDTOs);
+//
+//        var list = Stream.of(new ProductDto(
+//                "iphone 12",
+//                "iphone 12",
+//                "iphone.pnj",
+//                1000.0,
+//                10,
+//                LocalDate.now(),
+//                LocalDate.now(),
+//                1L,
+//                1L
+//
+//        )).collect(Collectors.toCollection(ArrayList::new));
+//        cartDto.setProducts(list);
+//        return cartDto;
+//    }
 
     public List<CartItem> getCustomerCartItems(Long customerId) {
         var cart = cartRepository.findByCustomerId(customerId);
