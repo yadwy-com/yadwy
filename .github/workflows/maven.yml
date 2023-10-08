@@ -16,8 +16,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-#      - name: Unit Tests # runs the unit tests
-#        run: mvn -B test --file pom.xml # runs the maven command to run the unit tests
+      - name: Unit Tests # runs the unit tests
+        run: mvn -B test --file pom.xml # runs the maven command to run the unit tests
       - name: Build  # builds the project
         run: |
           mvn clean
